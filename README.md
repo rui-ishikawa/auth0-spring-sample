@@ -27,24 +27,7 @@ OpenID Connect を採用する際は IDaaS を利用するのが一般的です�
 Auth0⇄Google 間は OAuth2.0 プロトコルで通信していますが、Auth0 が ID トークンを作成するため、全体として OpenID Connect プロトコルとなります。
 全体のシーケンス図は以下の通りです。
 
-```plantuml
-hide footbox
-participant "Web app" as webapp
-participant "Auth0" as auth0
-participant "Google" as google
-
-webapp -> auth0: リダイレクト
-auth0 -> auth0: idp選択
-auth0 -> google: リダイレクト
-google -> google: 資格情報を入力しログイン
-google -> auth0: リダイレクト \n認可コード
-auth0 -> google: トークンリクエスト
-return アクセストークン
-auth0 -> auth0: IDトークン生成
-auth0 -> webapp: リダイレクト \n認可コード
-webapp -> auth0: トークンリクエスト
-return IDトークン
-```
+![sample](./img/シーケンス図.png "sample")
 
 ## 1. Auth0 設定
 
