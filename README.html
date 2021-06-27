@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>auth0-spring-sample</title>
+        <style>
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="auth0-spring-sample">auth0-spring-sample</h1>
+<p>本ドキュメントでは、Auth0 での認証サーバの作成し、Spring boot のサンプルアプリで Google ログインを行う手順を説明する。</p>
+<h2 id="1-auth0-設定">1. Auth0 設定</h2>
+<h4 id="アカウント作成">アカウント作成</h4>
+<p><a href="https://auth0.com/jp">https://auth0.com/jp</a> にアクセスし、無料トライアルからアカウント作成。</p>
+<p><img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2016.02.40.png" alt="sample" title="sample"></p>
+<h4 id="テナント作成">テナント作成</h4>
+<p>Auth0 の Assets(Application、Connection、User)を定義・管理する単位となるテナントを作成する。
+任意のテナントドメイン、Region、tag を設定し、「Create」押下。</p>
+<p><img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2016.08.23.png" alt="sample" title="sample"></p>
+<p>テナントが作成されると、ダッシュボードが表示される。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2016.09.44.png" alt="sample" title="sample"></p>
+<h4 id="アプリケーションの作成">アプリケーションの作成</h4>
+<p>認証サーバを利用する Spring アプリケーションを登録する。</p>
+<p>画面上部の「Create Application」を押下。
+任意のアプリ名を入力、Regular Web application を選択し、「Create」押下。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2016.12.09.png" alt="sample" title="sample"></p>
+<p>Spring boot を選択。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2016.14.02.png" alt="sample" title="sample"></p>
+<p>アプリが作成されると以下のような画面となる。
+※gradle プロジェクトであれば「DOWNLOAD SAMPLE」からサンプルアプリを実行可能。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2016.16.22.png" alt="sample" title="sample"></p>
+<h4 id="アプリケーションの設定変更">アプリケーションの設定変更</h4>
+<p>Settings タブ &gt; 画面中部にある Application URIs で以下を通り設定し、画面下部の Save Changes を押下。</p>
+<ul>
+<li>Allowed Callback URLs: <a href="http://localhost:3000/login/oauth2/code/auth0">http://localhost:3000/login/oauth2/code/auth0</a></li>
+<li>Allowed Logout URLs: <a href="http://localhost:3000/">http://localhost:3000/</a></li>
+</ul>
+<p><img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2017.08.17.png" alt="sample" title="sample"></p>
+<h2 id="2-サンプルアプリ起動">2. サンプルアプリ起動</h2>
+<p>ここでは maven プロジェクトのサンプルアプリを起動する。
+リポジトリをクローンし、任意の IDE でプロジェクトを開く。</p>
+<h4 id="実行環境">実行環境</h4>
+<ul>
+<li>JDK: openjdk version &quot;11.0.11&quot;</li>
+<li>maven: Apache Maven 3.5.4</li>
+<li>IDE: Visual Studio Code</li>
+</ul>
+<h4 id="接続情報変更">接続情報変更</h4>
+<p>/src/main/resources/application.yml を開き、以下の通り値を変更。</p>
+<ul>
+<li>client-id: ダッシュボードの Client ID からコピーした値を設定</li>
+<li>client-secret: ダッシュボードの Client Secret からコピーした値を設定</li>
+<li>issuer-uri: ダッシュボードの Domain からコピーした値を設定</li>
+</ul>
+<p><img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2016.44.33.png" alt="sample" title="sample">
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2016.49.19.png" alt="sample" title="sample"></p>
+<h4 id="起動">起動</h4>
+<p>以下を実行し、アプリケーションを起動。</p>
+<pre><code class="language-sh"><div>$ <span class="hljs-built_in">cd</span> ./sample-app/demo
+$ mvn spring-boot:run
+</div></code></pre>
+<p><a href="http://localhost:3000/">http://localhost:3000/</a>　にアクセスすると、以下のようになる。</p>
+<p><img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2016.52.31.png" alt="sample" title="sample"></p>
+<p>「Login」押下すると、Auth0 のログイン画面が表示される。
+Auth0 はデフォルトで Google ログインが選択可能。
+初回のログインであれば、情報共有の同意画面が表示される。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2016.52.53.png" alt="sample" title="sample">
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2018.20.09.png" alt="sample" title="sample"></p>
+<p>Google 側の認証が成功すると、ログイン後のトップページが表示される。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2016.53.44.png" alt="sample" title="sample"></p>
+<p>ユーザアイコンから Profile を押下し、プロフィール画面に遷移。
+画面にアカウント情報と ID トークンが表示される。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2016.54.19.png" alt="sample" title="sample"></p>
+<h2 id="3-google-認証サーバー設定">3. Google 認証サーバー設定</h2>
+<p>Auth0 はデフォルトで google ログインが使用できるが、本番運用には正式な設定を行う必要があります。</p>
+<h4 id="gcp-にプロジェクトを作成">GCP にプロジェクトを作成</h4>
+<p><a href="https://console.cloud.google.com/">Google API Console</a>を開く。
+画面上部のプロジェクト名を押下 &gt; 新しいプロジェクト を押下。</p>
+<p><img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2017.34.33.png" alt="sample" title="sample"></p>
+<p>任意のプロジェクト名を設定。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2017.41.33.png" alt="sample" title="sample"></p>
+<p>画面上部のプロジェクト名を押下し、作成したプロジェクトに移動。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2017.42.01.png" alt="sample" title="sample"></p>
+<p>作成したプロジェクト名が表示されていることを確認。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2017.45.43.png" alt="sample" title="sample"></p>
+<h4 id="oauth-同意画面を作成">OAuth 同意画面を作成</h4>
+<p>左のナビゲーション部の OAuth 同意画面を押下。
+「外部」を選択し、作成を押下。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2017.48.52.png" alt="sample" title="sample"></p>
+<p>必須項目のアプリ名、ユーザーサポートメール、デベロッパーの連絡先情報を入力。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2017.49.58.png" alt="sample" title="sample"></p>
+<p>承認済みドメインに「<a href="http://auth0.com">auth0.com</a>」を設定。保存して次へを押下。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2018.03.04.png" alt="sample" title="sample"></p>
+<p>スコープとテストユーザーは特に入力不要のため、保存して次へを押下。以下の画面になれば OK。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2017.57.16.png" alt="sample" title="sample"></p>
+<p>アプリを公開を押下し、公開ステータスを本番環境に変更。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2018.30.24.png" alt="sample" title="sample"></p>
+<h4 id="認証情報を設定">認証情報を設定</h4>
+<p>左のナビゲーション部の 認証情報を押下。
+認証情報を作成 &gt; OAuth クライアント ID を選択。
+<img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2017.59.36.png" alt="sample" title="sample"></p>
+<p>以下のように設定。</p>
+<ul>
+<li>アプリケーションの種類: ウェブアプリケーション</li>
+<li>承認済み JavaScript 生成元: https://【テナント名】.auth0.com</li>
+<li>承認済みのリダイレクト URI: https://【テナント名】.auth0.com/login/callback</li>
+</ul>
+<p><img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2018.08.24.png" alt="sample" title="sample"></p>
+<p>OAuth のクライアント ID、クライアントシークレットが表示されるので控えておきます。</p>
+<p><img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2018.08.52.png" alt="sample" title="sample"></p>
+<h4 id="auth0-の設定を更新">Auth0 の設定を更新</h4>
+<p>Authentication &gt; Social &gt; google oauth2
+Client ID と Client Secret に先ほどコピーした値を入力し、Save changes を押下。</p>
+<p><img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2018.15.33.png" alt="sample" title="sample"></p>
+<p>再度サンプルアプリでログインする。
+このとき、Google 側のログイン画面の URL の client_id パラメータの値を確認し、先ほど登録した値と一致していれば正式なクライアントが登録されている。</p>
+<p><img src="file:////Users/rui/works/auth0-spring-sample/img/ScreenShot%202021-06-27%2018.34.33.png" alt="sample" title="sample"></p>
+
+    </body>
+    </html>
