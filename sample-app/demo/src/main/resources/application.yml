@@ -13,8 +13,8 @@ spring:
       client:
         registration:
           auth0:
-            client-id: nbnW3NfrH9l5Jz3JPABughqCyycarWsh
-            client-secret: XQup-5Tpnmsw7qjQAOPe0Xy3rQg9jjC_U5qIuD_uhB_2SKfHBQp9-29HcoTrj0sS
+            client-id: UNGebw86BmF4ZlTBvIvhyCO9YDHUbYEb
+            client-secret: bHlzO16P0XUNDpg5iSjjs0sRdfLfB0dMGGfcZAHkQDYB3hwvsu7rAfxNgjudZzGI
             scope:
               - openid
               - profile
@@ -22,4 +22,4 @@ spring:
         provider:
           auth0:
             # trailing slash is important!
-            issuer-uri: https://dev-yxvjcniz.jp.auth0.com/
+            issuer-uri: https://sample-auth0-ruuu.jp.auth0.com/
