@@ -3,6 +3,7 @@
 本ドキュメントでは、IDaaS である Auth0 を使用して認証サーバの作成し、Spring boot のサンプルアプリで Google ログインを行う手順を説明する。
 
 - [auth0-spring-sample](#auth0-spring-sample)
+  - [概要](#概要)
   - [1. Auth0 設定](#1-auth0-設定)
     - [1-1. アカウント作成](#1-1-アカウント作成)
     - [1-2. テナント作成](#1-2-テナント作成)
@@ -17,6 +18,33 @@
     - [3-2. OAuth 同意画面を作成](#3-2-oauth-同意画面を作成)
     - [3-3. 認証情報を設定](#3-3-認証情報を設定)
     - [3-4. Auth0 の設定を更新](#3-4-auth0-の設定を更新)
+
+## 概要
+
+OpenID Connect を採用する際は IDaaS を利用するのが一般的ですので、Auth0 のサンプルを作成しました。
+ハンズオンしてみたところ、認証処理、ID トークンの検証処理は spring security の機能で実装可能でしたので、ライブラリは追加していません。
+
+Auth0⇄Google 間は OAuth2.0 プロトコルで通信していますが、Auth0 が ID トークンを作成するため、全体として OpenID Connect プロトコルとなります。
+全体のシーケンス図は以下の通りです。
+
+```plantuml
+hide footbox
+participant "Web app" as webapp
+participant "Auth0" as auth0
+participant "Google" as google
+
+webapp -> auth0: リダイレクト
+auth0 -> auth0: idp選択
+auth0 -> google: リダイレクト
+google -> google: 資格情報を入力しログイン
+google -> auth0: リダイレクト \n認可コード
+auth0 -> google: トークンリクエスト
+return アクセストークン
+auth0 -> auth0: IDトークン生成
+auth0 -> webapp: リダイレクト \n認可コード
+webapp -> auth0: トークンリクエスト
+return IDトークン
+```
 
 ## 1. Auth0 設定
 
