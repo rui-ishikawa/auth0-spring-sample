@@ -106,7 +106,10 @@ Google 側の認証が成功すると、ログイン後のトップページが�
 
 ユーザアイコンから Profile を押下し、プロフィール画面に遷移。
 画面にアカウント情報と ID トークンが表示される。
-![sample](./img/ScreenShot%202021-06-27%2016.54.19.png "sample")
+![sample](./img/ScreenShot%202021-06-27%2022.21.19.png "sample")
+
+[jwt.ms](https://jwt.ms/) で id token をデコードすると中身を確認できる。
+![sample](./img/ScreenShot%202021-06-27%2022.21.28.png "sample")
 
 ## 3. Google 認証サーバー設定
 
